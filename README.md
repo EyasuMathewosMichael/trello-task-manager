@@ -2,6 +2,9 @@
 
 A full-stack project management app with boards, lists, and task cards. Built for real-time team collaboration with drag-and-drop, analytics, and role-based access control.
 
+🔗 **Live Demo:** [trello-task-manager-client.vercel.app](https://trello-task-manager-client.vercel.app)  
+🔧 **API:** [trello-task-manager.onrender.com](https://trello-task-manager.onrender.com/api/health)
+
 ---
 
 ## Tech Stack
