@@ -8,7 +8,7 @@ const socketService = {
       return;
     }
 
-    socket = io({
+    socket = io(import.meta.env.VITE_SOCKET_URL || undefined, {
       auth: { token: accessToken },
       autoConnect: true,
     });
