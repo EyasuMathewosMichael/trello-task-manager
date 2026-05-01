@@ -45,3 +45,10 @@ Thumbs.db
 # MongoDB memory server binaries
 .cache/
 **/.cache/
+
+# Playwright
+playwright-report/
+test-results/
+
+# Kiro internal spec files
+.kiro/

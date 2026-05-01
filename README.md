@@ -16,6 +16,7 @@ A full-stack project management app with boards, lists, and task cards. Built fo
 | File Storage | Cloudinary |
 | Email | Nodemailer (SMTP) |
 | Scheduling | node-cron |
+| E2E Testing | Playwright |
 
 ---
 
@@ -44,7 +45,8 @@ A full-stack project management app with boards, lists, and task cards. Built fo
 
 ```
 trello-task-manager/
-├── client/          # React frontend (Vite)
+├── client/                  # React frontend (Vite)
+│   ├── e2e/                 # Playwright E2E tests
 │   └── src/
 │       ├── components/
 │       │   ├── Auth/
@@ -57,7 +59,7 @@ trello-task-manager/
 │       ├── pages/
 │       ├── services/
 │       └── styles/
-└── server/          # Node.js/Express backend
+└── server/                  # Node.js/Express backend
     └── src/
         ├── models/
         ├── routes/
@@ -73,7 +75,7 @@ trello-task-manager/
 ## Prerequisites
 
 - Node.js 18+
-- MongoDB (local or Atlas)
+- MongoDB (local or [Atlas](https://www.mongodb.com/atlas))
 - Redis (local or managed)
 - Cloudinary account (for file attachments)
 - SMTP credentials (for email — optional in development)
@@ -85,7 +87,7 @@ trello-task-manager/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/trello-task-manager.git
+git clone https://github.com/EyasuMathewosMichael/trello-task-manager.git
 cd trello-task-manager
 ```
 
@@ -149,10 +151,32 @@ npm run dev:client
 | `npm run dev:server` | Start backend with nodemon (hot reload) |
 | `npm run dev:client` | Start frontend with Vite dev server |
 | `npm run test:server` | Run backend tests (Jest) |
-| `npm run test:client` | Run frontend tests (Vitest) |
-| `npm run test:e2e` | Run Playwright E2E tests (requires both servers running) |
+| `npm run test:client` | Run frontend unit tests (Vitest) |
+| `npm run test:e2e` | Run Playwright E2E tests (starts servers automatically) |
 | `npm run lint` | Lint all JS/JSX files with ESLint |
 | `npm run format` | Format all files with Prettier |
+
+---
+
+## E2E Tests
+
+Playwright E2E tests live in `client/e2e/` and cover:
+
+| Test file | What it covers |
+|---|---|
+| `board-task-workflow.spec.js` | Create board → add lists → create/delete tasks → verify persistence |
+| `drag-drop.spec.js` | Drag task between lists, verify state after reload |
+| `realtime-collaboration.spec.js` | Task created in one tab appears in another without refresh |
+| `theme.spec.js` | Dark/light mode toggle persists across page reloads |
+| `responsive.spec.js` | No horizontal overflow at 320px/768px/1280px; mobile single-column layout |
+
+Run them with:
+
+```bash
+npm run test:e2e
+```
+
+Playwright will start both dev servers automatically before running the tests.
 
 ---
 
@@ -179,10 +203,15 @@ All API routes are prefixed with `/api`.
 | DELETE | `/tasks/:id` | Delete a task |
 | GET | `/tasks/:id/comments` | Get comments for a task |
 | POST | `/tasks/:id/comments` | Add a comment |
+| PUT | `/comments/:id` | Edit a comment |
 | DELETE | `/comments/:id` | Delete a comment |
+| POST | `/tasks/:id/attachments` | Upload a file attachment |
+| DELETE | `/attachments/:id` | Delete an attachment |
 | GET | `/dashboard` | Get dashboard metrics |
 | GET | `/search` | Search and filter tasks |
-| POST | `/boards/:id/invite` | Send a board invitation |
+| POST | `/boards/:id/invite` | Send a board invitation email |
+| GET | `/invite/:token` | Accept a board invitation |
+| GET | `/boards/:id/activity` | Get board activity log |
 | GET | `/api/health` | Health check |
 
 ---
